@@ -34,9 +34,7 @@ function signup(req, res, next) {
                 }));
             }
             else {
-                res
-                    .status(404)
-                    .json({ data: null, message: "User Already Exists, Please Login" });
+                res.json({ data: null, message: "User Already Exists, Please Login" });
             }
         }
         catch (err) {

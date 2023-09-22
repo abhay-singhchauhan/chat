@@ -18,9 +18,7 @@ export async function signup(req: any, res: any, next: any) {
         });
       });
     } else {
-      res
-        .status(404)
-        .json({ data: null, message: "User Already Exists, Please Login" });
+      res.json({ data: null, message: "User Already Exists, Please Login" });
     }
   } catch (err) {
     res.status(500).json({ data: err, message: "Unexpected Error" });
