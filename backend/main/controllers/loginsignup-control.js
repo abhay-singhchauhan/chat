@@ -12,9 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signup = void 0;
+exports.login = exports.signup = void 0;
 const userTable_1 = __importDefault(require("../models/userTable"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 function signup(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -43,3 +46,42 @@ function signup(req, res, next) {
     });
 }
 exports.signup = signup;
+function login(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const body = req.body;
+            const user = (yield userTable_1.default.findOne({ where: { email: body.email } }));
+            if (user) {
+                bcrypt_1.default.compare(body.password, user.Password, (err, hash) => {
+                    if (hash) {
+                        console.log("every thing is fine");
+                        const obj = {
+                            userId: user.id,
+                            name: user.Name,
+                            email: user.Email,
+                        };
+                        const token = jsonwebtoken_1.default.sign(obj, process.env.JWT_KEY);
+                        if (token) {
+                            res.status(200).json({
+                                status: true,
+                                message: "Login Successfull",
+                                token: token,
+                            });
+                        }
+                    }
+                    else {
+                        console.log("error hai");
+                        res.status(401).json({ status: false, message: "Wrong Password" });
+                    }
+                });
+            }
+            else {
+                res.status(404).json({ status: false, message: "User dosen't exist" });
+            }
+        }
+        catch (err) {
+            res.status(500).json({ status: false, message: "uncought error" });
+        }
+    });
+}
+exports.login = login;
