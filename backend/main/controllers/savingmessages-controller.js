@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendMessgaes = void 0;
+exports.getMessages = exports.sendMessgaes = void 0;
 const messages_1 = __importDefault(require("../models/messages"));
 function sendMessgaes(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -35,3 +35,18 @@ function sendMessgaes(req, res, next) {
     });
 }
 exports.sendMessgaes = sendMessgaes;
+function getMessages(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const message = yield messages_1.default.findAll();
+            if (message) {
+                res.json({ success: true, data: message });
+            }
+        }
+        catch (err) {
+            res.json({ success: true, data: err });
+            console.log(err);
+        }
+    });
+}
+exports.getMessages = getMessages;

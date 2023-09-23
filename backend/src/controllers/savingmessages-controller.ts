@@ -1,3 +1,4 @@
+import { json } from "body-parser";
 import Messages from "../models/messages";
 import User from "../models/userTable";
 
@@ -16,5 +17,17 @@ export async function sendMessgaes(req: any, res: any, next: any) {
   } catch (err) {
     console.log(err);
     res.json({ success: false });
+  }
+}
+
+export async function getMessages(req: any, res: any, next: any) {
+  try {
+    const message = await Messages.findAll();
+    if (message) {
+      res.json({ success: true, data: message });
+    }
+  } catch (err) {
+    res.json({ success: true, data: err });
+    console.log(err);
   }
 }
