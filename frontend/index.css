@@ -1,0 +1,17 @@
+#formDiv {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%, -50%);
+}
+form {
+  display: flex;
+  justify-content: space-evenly;
+}
+form input {
+  width: 80%;
+}
+form button {
+  width: 10%;
+}
