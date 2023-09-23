@@ -38,7 +38,16 @@ exports.sendMessgaes = sendMessgaes;
 function getMessages(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const message = yield messages_1.default.findAll();
+            let query = req.query.lastid;
+            if (query == "undefined") {
+                query = 0;
+            }
+            else {
+                query = Number(req.query.lastid.trim());
+            }
+            console.log(req.query);
+            console.log(query, "<<<<<<<<<<");
+            const message = yield messages_1.default.findAll({ offset: query });
             if (message) {
                 res.json({ success: true, data: message });
             }

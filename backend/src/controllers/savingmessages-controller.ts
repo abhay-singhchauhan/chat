@@ -22,7 +22,16 @@ export async function sendMessgaes(req: any, res: any, next: any) {
 
 export async function getMessages(req: any, res: any, next: any) {
   try {
-    const message = await Messages.findAll();
+    let query = req.query.lastid as any;
+    if (query == "undefined") {
+      query = 0;
+    } else {
+      query = Number(req.query.lastid.trim());
+    }
+    console.log(req.query);
+    console.log(query, "<<<<<<<<<<");
+    const message = await Messages.findAll({ offset: query });
+
     if (message) {
       res.json({ success: true, data: message });
     }
