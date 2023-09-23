@@ -1,3 +1,6 @@
+setInterval(() => {
+  location.reload();
+}, 1000);
 async function getData() {
   const token = localStorage.getItem("chatapplicationtoken");
   const res = await axios.get("http://localhost:4000/get-messages", {
