@@ -7,12 +7,31 @@
     <link href="index.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="messages"></div>
-    <div id="formDiv">
-      <form action="submit">
-        <input type="text" />
-        <button type="submit">Send</button>
+    <div id="scroll">
+      <div id="scrollTop">
+        <button id="createGroup">CreateGroup</button>
+      </div>
+      <form id="groupform" class="displaynone" action="submit">
+        <input type="text" id="groupvalue" placeholder="Name" />
+        <button type="submit">Add</button>
       </form>
+    </div>
+    <div id="right" class="displaynone">
+      <div id="righttop">
+        <p id="groupNameDisplay"></p>
+        <button id="addMember">Add Member</button>
+        <form id="addMemberForm" class="displaynone" action="submit">
+          <input id="addMemberApi" type="text" required />
+          <button type="submit">Add</button>
+        </form>
+      </div>
+      <div id="messages"></div>
+      <div id="formDiv">
+        <form action="submit">
+          <input type="text" />
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

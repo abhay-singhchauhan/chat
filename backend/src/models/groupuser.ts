@@ -1,29 +1,25 @@
 import sequelize from "../util/db";
 import { Sequelize, DataTypes } from "sequelize";
 
-const User = sequelize.define("user", {
+const groupuser = sequelize.define("groupuser", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  Name: {
-    type: DataTypes.STRING,
+  groupId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  Email: {
-    type: DataTypes.STRING,
+  userId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  Phone: {
-    allowNull: false,
-    type: DataTypes.BIGINT,
-  },
-  Password: {
-    allowNull: false,
+  groupName: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
 });
 
-export default User;
+export default groupuser;
