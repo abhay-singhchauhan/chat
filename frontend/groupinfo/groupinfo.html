@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>group</title>
+    <link rel="stylesheet" href="groupinfo.css" />
+  </head>
+  <body>
+    <div>
+      <p id="groupname"></p>
+      <button id="addMember">Add Member</button>
+      <form id="addMemberForm" class="displaynone" action="submit">
+        <input id="addMemberApi" type="text" required />
+        <button id="submitButton" type="submit">Add</button>
+      </form>
+      <div id="addMembers" class="displaynone"></div>
+    </div>
+    <div id="membersdisplay"></div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="group.js"></script>
+</html>

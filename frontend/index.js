@@ -45,6 +45,7 @@ async function getGroups() {
   console.log(res);
 }
 getGroups();
+
 document.querySelectorAll("button")[0].addEventListener("click", () => {
   let cgroup = document.querySelectorAll("button")[0];
   if (cgroup.innerText === "CreateGroup") {
@@ -61,42 +62,23 @@ document.getElementById("scroll").addEventListener("click", (e) => {
   if (e.target.classList.contains("chats")) {
     document.getElementById("right").setAttribute("class", "");
     localStorage.setItem("currentGroup", e.target.id);
-    document.getElementById("groupNameDisplay").innerText = e.target.innerText;
-  }
-});
-document.getElementById("addMember").addEventListener("click", () => {
-  if (document.getElementById("addMember").innerText === "Add Member") {
-    document.getElementById("addMember").innerText = "Close Form";
-    document.getElementById("addMemberForm").setAttribute("class", "");
-  } else {
-    document.getElementById("addMember").innerText = "Add Member";
-    document
-      .getElementById("addMemberForm")
-      .setAttribute("class", "displaynone");
+    console.log(e.target);
+    let groupND = document.getElementById("groupNameDisplay");
+    console.log(e.target.id);
+    groupND.innerText = e.target.innerText;
+    groupND.setAttribute("id", `${e.target.id}`);
+    console.log(groupND);
   }
 });
 
-document
-  .getElementById("addMemberForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("chatapplicationtoken");
-    const value = document.getElementById("addMemberApi").value;
-    const query = +localStorage.getItem("currentGroup");
+document.getElementById("groupNameDisplay").addEventListener("click", (e) => {
+  localStorage.setItem(
+    "groupNameId",
+    JSON.stringify({ id: e.target.id, name: e.target.innerText.trim() })
+  );
+  window.location = "./groupinfo/groupinfo.html";
+});
 
-    const res = await axios.post(
-      `http://localhost:4000/add-member?groupId=${query}`,
-      {
-        email: value,
-      },
-      {
-        headers: {
-          token: token,
-        },
-      }
-    );
-    console.log(res);
-  });
 // async function getData() {
 //   const token = localStorage.getItem("chatapplicationtoken");
 //   const lastId = JSON.parse(localStorage.getItem("chatData")) || [];
@@ -124,32 +106,32 @@ document
 // }
 // getData();
 
-function display(data) {
-  const outerdiv = document.getElementById("messages");
+// function display(data) {
+//   const outerdiv = document.getElementById("messages");
 
-  data.forEach((ele) => {
-    const div = document.createElement("div");
-    div.innerText = ele.Message;
-    outerdiv.append(div);
-  });
-}
+//   data.forEach((ele) => {
+//     const div = document.createElement("div");
+//     div.innerText = ele.Message;
+//     outerdiv.append(div);
+//   });
+// }
 
-const message = document.querySelector("input");
-document.querySelectorAll("form")[2].addEventListener("submit", async (e) => {
-  e.preventDefault();
-  try {
-    const token = localStorage.getItem("chatapplicationtoken");
-    const res = await axios.post(
-      "http://localhost:4000/send-message",
-      { message: message.value },
-      {
-        headers: {
-          token: token,
-        },
-      }
-    );
-    console.log(res);
-  } catch (err) {
-    console.log(err);
-  }
-});
+// const message = document.querySelector("input");
+// document.querySelectorAll("form")[2].addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   try {
+//     const token = localStorage.getItem("chatapplicationtoken");
+//     const res = await axios.post(
+//       "http://localhost:4000/send-message",
+//       { message: message.value },
+//       {
+//         headers: {
+//           token: token,
+//         },
+//       }
+//     );
+//     console.log(res);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });

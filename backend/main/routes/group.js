@@ -7,4 +7,7 @@ const router = (0, express_1.Router)();
 router.post("/create-group", authentication_1.authenticate, group_controls_1.createGroup);
 router.post("/add-member", authentication_1.authenticate, group_controls_1.addMember);
 router.get("/get-groups", authentication_1.authenticate, group_controls_1.getGroups);
+router.get("/get-users", authentication_1.authenticate, group_controls_1.getUsers);
+router.get("/get-group-members", authentication_1.authenticate, group_controls_1.findGroupMembers);
+router.delete("/remove-group-member", authentication_1.authenticate, group_controls_1.removeGroupMember);
 exports.default = router;

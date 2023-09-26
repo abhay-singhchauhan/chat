@@ -1,0 +1,13 @@
+.displaynone {
+  display: none;
+}
+#addMembers {
+  width: 80%;
+  margin: auto;
+  color: white;
+  background-color: black;
+}
+#addMembers > div {
+  display: flex;
+  justify-content: space-evenly;
+}
