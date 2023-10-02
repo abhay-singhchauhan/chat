@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeGroupMember = exports.findGroupMembers = exports.getUsers = exports.getGroups = exports.addMember = exports.createGroup = void 0;
+exports.removeGroupMember = exports.findGroupMembers = exports.getUsers = exports.getGroup = exports.getGroups = exports.addMember = exports.createGroup = void 0;
 const groups_1 = __importDefault(require("../models/groups"));
 const userTable_1 = __importDefault(require("../models/userTable"));
 const groupuser_1 = __importDefault(require("../models/groupuser"));
@@ -24,6 +24,7 @@ function createGroup(req, res, next) {
             console.log(body);
             const group = yield groups_1.default.create({
                 Name: body.name,
+                Heading: body.heading,
                 Admin: req.user.id,
             });
             const addMember = yield groupuser_1.default.create({
@@ -31,11 +32,11 @@ function createGroup(req, res, next) {
                 userId: req.user.id,
                 groupName: group.Name,
             });
-            res.json({ success: true });
+            res.status(200).json({ success: true });
         }
         catch (err) {
             console.log(err);
-            res.json({ success: false });
+            res.status(500).json({ success: false });
         }
     });
 }
@@ -45,17 +46,22 @@ function addMember(req, res, next) {
         try {
             const query = req.query.groupId;
             const body = req.body;
-            console.log(query, body);
+            console.log(query, body, " <<<<<<>>>>>>");
             const user = yield userTable_1.default.findOne({ where: { Email: body.email } });
             const group = yield groups_1.default.findOne({ where: { id: query } });
-            console.log(group);
-            console.log(user);
-            const addMember = yield groupuser_1.default.create({
-                userId: user.id,
-                groupId: group.id,
-                groupName: group.Name,
-            });
-            res.json({ success: true });
+            if (group.Admin === req.user.id) {
+                const addMember = yield groupuser_1.default.create({
+                    userId: user.id,
+                    groupId: group.id,
+                    groupName: group.Name,
+                });
+                console.log(group.id);
+                console.log(user.id);
+                res.json({ success: true });
+            }
+            else {
+                res.json({ success: false, message: "Only Admin can add members" });
+            }
         }
         catch (err) {
             res.json({ success: false });
@@ -66,16 +72,38 @@ exports.addMember = addMember;
 function getGroups(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const groups = yield groupuser_1.default.findAll({ where: { userId: req.user.id } });
-            res.json({ groups });
+            const obj = {
+                include: {
+                    model: groups_1.default,
+                    through: groupuser_1.default,
+                },
+            };
+            const groups = yield userTable_1.default.findByPk(req.user.id, obj);
+            console.log(groups);
+            res.json({ success: true, groups, userDetails: req.user });
         }
         catch (err) {
             console.log(err);
-            res.json({ message: false });
+            res.json({ success: false });
         }
     });
 }
 exports.getGroups = getGroups;
+function getGroup(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const body = req.body;
+        console.log(body);
+        try {
+            const group = yield groups_1.default.findOne({ where: { id: body.id } });
+            console.log(group);
+            res.status(200).json({ group, success: true });
+        }
+        catch (err) {
+            res.status(500).json({ group: null, success: true });
+        }
+    });
+}
+exports.getGroup = getGroup;
 function getUsers(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -85,10 +113,10 @@ function getUsers(req, res, next) {
             });
             console.log(user);
             if (user.length > 0) {
-                res.status(200).json({ data: user });
+                res.status(200).json({ data: user, success: true, message: "done" });
             }
             else {
-                res.status(200).json({ data: null });
+                res.status(200).json({ data: null, success: false });
             }
         }
         catch (err) {
@@ -124,11 +152,22 @@ function removeGroupMember(req, res, next) {
         try {
             const query = req.query;
             console.log(query, "<<<<<<<<");
-            const gu = yield groupuser_1.default.destroy({
-                where: { groupId: query.groupId, userId: query.userId },
-            });
-            if (gu) {
-                res.status(200).json({ data: gu, success: true });
+            const group = (yield groups_1.default.findOne({
+                where: { id: query.groupId },
+            }));
+            console.log(group);
+            if (group.Admin === req.user.id) {
+                const gu = yield groupuser_1.default.destroy({
+                    where: { groupId: query.groupId, userId: query.userId },
+                });
+                if (gu) {
+                    res.status(200).json({ data: gu, success: true });
+                }
+            }
+            else {
+                res
+                    .status(200)
+                    .json({ success: false, message: "Only Admin can Remove a User" });
             }
         }
         catch (err) {

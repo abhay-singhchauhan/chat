@@ -6,6 +6,7 @@ import {
   getUsers,
   findGroupMembers,
   removeGroupMember,
+  getGroup,
 } from "../controllers/group-controls";
 import { authenticate } from "../middlewears/authentication";
 
@@ -13,6 +14,7 @@ const router = Router();
 
 router.post("/create-group", authenticate, createGroup);
 router.post("/add-member", authenticate, addMember);
+router.post("/get-group", authenticate, getGroup);
 router.get("/get-groups", authenticate, getGroups);
 router.get("/get-users", authenticate, getUsers);
 router.get("/get-group-members", authenticate, findGroupMembers);

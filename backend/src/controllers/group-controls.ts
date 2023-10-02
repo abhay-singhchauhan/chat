@@ -6,12 +6,14 @@ import Sequelize from "sequelize";
 export async function createGroup(req: any, res: any, next: any) {
   interface body_inter {
     name: string;
+    heading: string;
   }
   try {
     const body: body_inter = req.body;
     console.log(body);
     const group: any = await Groups.create({
       Name: body.name,
+      Heading: body.heading,
       Admin: req.user.id,
     });
     const addMember = await groupuser.create({
@@ -19,10 +21,10 @@ export async function createGroup(req: any, res: any, next: any) {
       userId: req.user.id,
       groupName: group.Name,
     });
-    res.json({ success: true });
+    res.status(200).json({ success: true });
   } catch (err) {
     console.log(err);
-    res.json({ success: false });
+    res.status(500).json({ success: false });
   }
 }
 
@@ -35,32 +37,57 @@ export async function addMember(req: any, res: any, next: any) {
   try {
     const query: qurey_type = req.query.groupId;
     const body: body_inter = req.body;
-    console.log(query, body);
+    console.log(query, body, " <<<<<<>>>>>>");
     const user: any = await User.findOne({ where: { Email: body.email } });
     const group: any = await Groups.findOne({ where: { id: query } });
-    console.log(group);
-    console.log(user);
-    const addMember = await groupuser.create({
-      userId: user.id,
-      groupId: group.id,
-      groupName: group.Name,
-    });
-    res.json({ success: true });
+    if (group.Admin === req.user.id) {
+      const addMember = await groupuser.create({
+        userId: user.id,
+        groupId: group.id,
+        groupName: group.Name,
+      });
+      console.log(group.id);
+      console.log(user.id);
+      res.json({ success: true });
+    } else {
+      res.json({ success: false, message: "Only Admin can add members" });
+    }
   } catch (err) {
     res.json({ success: false });
   }
 }
 
 export async function getGroups(req: any, res: any, next: any) {
+  type inside = any;
   try {
-    const groups = await groupuser.findAll({ where: { userId: req.user.id } });
-    res.json({ groups });
+    const obj: inside = {
+      include: {
+        model: Groups,
+        through: groupuser,
+      },
+    };
+    const groups = await User.findByPk(req.user.id, obj);
+    console.log(groups);
+    res.json({ success: true, groups, userDetails: req.user });
   } catch (err) {
     console.log(err);
-    res.json({ message: false });
+    res.json({ success: false });
   }
 }
-
+export async function getGroup(req: any, res: any, next: any) {
+  interface body_inter {
+    id: string;
+  }
+  const body = req.body;
+  console.log(body);
+  try {
+    const group = await Groups.findOne({ where: { id: body.id } });
+    console.log(group);
+    res.status(200).json({ group, success: true });
+  } catch (err) {
+    res.status(500).json({ group: null, success: true });
+  }
+}
 export async function getUsers(req: any, res: any, next: any) {
   interface query_type {
     email: string;
@@ -72,9 +99,9 @@ export async function getUsers(req: any, res: any, next: any) {
     });
     console.log(user);
     if (user.length > 0) {
-      res.status(200).json({ data: user });
+      res.status(200).json({ data: user, success: true, message: "done" });
     } else {
-      res.status(200).json({ data: null });
+      res.status(200).json({ data: null, success: false });
     }
   } catch (err) {
     console.log(err);
@@ -112,11 +139,21 @@ export async function removeGroupMember(req: any, res: any, next: any) {
   try {
     const query: query_type = req.query;
     console.log(query, "<<<<<<<<");
-    const gu = await groupuser.destroy({
-      where: { groupId: query.groupId, userId: query.userId },
-    });
-    if (gu) {
-      res.status(200).json({ data: gu, success: true });
+    const group = (await Groups.findOne({
+      where: { id: query.groupId },
+    })) as any;
+    console.log(group);
+    if (group.Admin === req.user.id) {
+      const gu = await groupuser.destroy({
+        where: { groupId: query.groupId, userId: query.userId },
+      });
+      if (gu) {
+        res.status(200).json({ data: gu, success: true });
+      }
+    } else {
+      res
+        .status(200)
+        .json({ success: false, message: "Only Admin can Remove a User" });
     }
   } catch (err) {
     console.log(err);

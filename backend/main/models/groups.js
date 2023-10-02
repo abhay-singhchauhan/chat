@@ -20,5 +20,9 @@ const Groups = db_1.default.define("groups", {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    Heading: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
 });
 exports.default = Groups;

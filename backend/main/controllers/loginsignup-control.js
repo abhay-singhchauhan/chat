@@ -21,33 +21,42 @@ dotenv_1.default.config();
 function signup(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const user = yield userTable_1.default.findAll({ where: { Email: req.body.email } });
+            const body = req.body;
+            const user = yield userTable_1.default.findAll({ where: { Email: body.email } });
             if (user.length < 1) {
-                bcrypt_1.default.hash(req.body.password, 10, (err, hashed) => __awaiter(this, void 0, void 0, function* () {
+                bcrypt_1.default.hash(body.password, 10, (err, hashed) => __awaiter(this, void 0, void 0, function* () {
                     const createdUser = yield userTable_1.default.create({
-                        Name: req.body.name,
-                        Email: req.body.email,
+                        Name: body.name,
+                        Email: body.email,
                         Password: hashed,
-                        Phone: req.body.phone,
+                        Phone: body.phone,
                     });
                     res.status(200).json({
                         data: createdUser,
+                        status: "success",
                         message: "User Created Successfully, Please Login",
                     });
                 }));
             }
             else {
-                res.json({ data: null, message: "User Already Exists, Please Login" });
+                res.status(403).json({
+                    data: null,
+                    status: "failed",
+                    message: "User Already Exists, Please Login",
+                });
             }
         }
         catch (err) {
-            res.status(500).json({ data: err, message: "Unexpected Error" });
+            res
+                .status(500)
+                .json({ data: err, message: "Unexpected Error", status: "failed" });
         }
     });
 }
 exports.signup = signup;
 function login(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
+        //interface for jwt_token and req_body
         try {
             const body = req.body;
             const user = (yield userTable_1.default.findOne({ where: { email: body.email } }));

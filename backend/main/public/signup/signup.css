@@ -1,0 +1,136 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(69, 68, 68);
+}
+body {
+  background-color: #f6f8fc;
+}
+#logo {
+  display: block;
+  margin: auto;
+  margin-top: 6vh;
+  width: 150px;
+  backface-visibility: hidden;
+  mix-blend-mode: darken;
+}
+#formCover {
+  width: 30%;
+  margin: auto;
+  margin-top: 5vh;
+  background-color: #ffffff;
+  padding: 40px 20px;
+  border-radius: 10px;
+}
+form {
+  width: 100%;
+}
+p {
+  margin-bottom: 20px;
+}
+form input {
+  border: 1px solid #b1b7be;
+  width: 100%;
+  background-color: #eaf1fb;
+  border: none;
+  height: 30px;
+  border-radius: 10px;
+}
+input:focus {
+  outline: none;
+  border: 1px solid #989ca3;
+}
+
+input[type="email"],
+[type="password"],
+[type="text"],
+[type="number"] {
+  padding-left: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+form button {
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  color: white;
+  font-size: large;
+  margin-top: 8px;
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid #989ca3;
+  cursor: pointer;
+}
+form button:hover {
+  transition: 0.2s;
+  opacity: 0.8;
+}
+form button:active {
+  transition: 0.2s;
+  opacity: 0.6;
+}
+form div {
+  width: 100%;
+  height: 30px;
+  margin: auto;
+  text-align: center;
+  border: 1px solid grey;
+  margin-top: 10px;
+  border-radius: 10px;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+form div:hover {
+  opacity: 0.7;
+}
+form div:active {
+  opacity: 0.5;
+}
+form img {
+  height: 70%;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  #formCover {
+    width: 70%;
+  }
+  #logo {
+    width: 100px;
+  }
+  #formCover {
+    margin-top: 2vh;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #formCover {
+    width: 60%;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  #formCover {
+    width: 50%;
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #formCover {
+    width: 40%;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  #formCover {
+    width: 30%;
+  }
+}
