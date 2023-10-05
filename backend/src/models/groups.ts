@@ -20,6 +20,10 @@ const Groups = sequelize.define("groups", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  Image: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
 });
 
 export default Groups;

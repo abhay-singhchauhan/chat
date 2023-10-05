@@ -7,6 +7,7 @@ import path from "path";
 import loginsignuprouter from "./routes/loginsignup";
 import messagesrouter from "./routes/messages";
 import grouprouter from "./routes/group";
+import imagesrouter from "./routes/images";
 /*routes*/
 
 import env from "dotenv";
@@ -36,6 +37,7 @@ app.use(bodyParser.json());
 app.use(loginsignuprouter);
 app.use(messagesrouter);
 app.use(grouprouter);
+app.use(imagesrouter);
 app.use((req: any, res: any, next: any) => {
   res.sendFile(path.join(__dirname, req.url));
   console.log(req.url);
@@ -55,8 +57,14 @@ io.on("connection", (socket: Socket) => {
     socket.join(roomNumber);
     io.to(roomNumber).emit("joinedRoom", memberName);
   });
-  socket.on("messageSent", (groupId, messageValue) => {
-    io.to(groupId).emit("takeMessage", messageValue, groupId);
+  socket.on("messageSent", (obj) => {
+    console.log(obj);
+    io.to(obj.groupId).emit("takeMessage", obj);
+  });
+  socket.on("leave", (groupId: string) => {
+    socket.leave(groupId);
+    console.log(socket.eventNames);
+    console.log("I left, group", groupId);
   });
   console.log(`the client is been connected ${socket.id}`);
 });
@@ -64,6 +72,7 @@ io.on("connection", (socket: Socket) => {
 Groups.belongsToMany(User, { through: "groupuser" });
 User.belongsToMany(Groups, { through: "groupuser" });
 User.hasMany(Messages);
+Groups.hasMany(Messages);
 db.sync().then(() => {
   server.listen(4000);
 });

@@ -25,6 +25,10 @@ body {
   border-radius: 50%;
   cursor: pointer;
 }
+#nav div img {
+  width: 27px;
+  height: 27px;
+}
 #nav div {
   cursor: pointer;
   height: 70%;
@@ -82,6 +86,7 @@ body {
 }
 .chats > div:nth-child(1) {
   width: 50px;
+  height: 50px;
 }
 .chats > div:nth-child(2) {
   width: 80%;
@@ -94,6 +99,7 @@ body {
 }
 .chats img {
   width: 100%;
+  height: 100%;
   border-radius: 50%;
 }
 #leftTop {
@@ -140,7 +146,6 @@ body {
 }
 #addingGroups {
   width: 100%;
-  height: 200px;
   position: relative;
   background-color: rgb(200, 198, 198);
   border-radius: 20px;
@@ -148,6 +153,7 @@ body {
   display: none;
   align-items: center;
   justify-content: center;
+  padding: 20px 0 20px 0;
 }
 #addingGroups form {
   width: 70%;
@@ -167,6 +173,7 @@ body {
   outline: none;
   margin-bottom: 10px;
 }
+
 #addingGroups form input:focus {
   background-color: #dce0e7;
 }
@@ -322,11 +329,141 @@ body {
   position: relative;
   bottom: 0%;
 }
-#messages {
-  height: 20px;
-  margin-bottom: 5px;
-  background-color: grey;
+.messagesright {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding: 0 20px 0 20px;
 }
+.messagesleft {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 0 20px 0 20px;
+}
+.messagesleft p {
+  padding: 10px;
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+
+  border-radius: 10px;
+  color: white;
+}
+#messagesBox > div > div {
+  width: 60%;
+  display: flex;
+}
+#messagesBox img {
+  height: 200px;
+  padding: 10px;
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  border-radius: 10px;
+}
+.arrowDiv {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arrowDiv h2 {
+  color: blue;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+}
+.arrowDiv h2:hover {
+  background-color: #e3e5e9;
+}
+#messagesBox > div {
+  margin-bottom: 10px;
+}
+.messagesright > div {
+  justify-content: end;
+}
+.messagesright p {
+  padding: 10px;
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  border-radius: 10px;
+  color: white;
+}
+
+#rightbottom > div:nth-child(1) {
+  width: 100px;
+}
+
+#rightbottom > div:nth-child(1) input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+input[type="file"]::file-selector-button {
+  border-radius: 4px;
+  padding: 0 10px;
+  height: 100%;
+  cursor: pointer;
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  margin-right: 25px;
+  width: 100%;
+  transition: background-color 200ms;
+  border-radius: 30px;
+  color: white;
+  border: none;
+}
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+  background-color: #f3f4f6;
+  opacity: 0.7;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+
+#rightbottom button {
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  color: white;
+  padding: 7px 20px 7px 20px;
+  border: none;
+  border-radius: 10px;
+}
+#rightbottom button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+#rightbottom button:active {
+  opacity: 0.5;
+}
+
 /*right*/
 
 /* Extra small devices (phones, 600px and down) */
@@ -357,6 +494,9 @@ body {
   }
   #rightbottom div {
     height: 80%;
+  }
+  #rightbottom > div:nth-child(1) {
+    width: 50px;
   }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */

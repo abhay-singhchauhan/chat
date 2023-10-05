@@ -21,7 +21,7 @@ function createGroup(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const body = req.body;
-            console.log(body);
+            console.log(body, "idhar <<<<<");
             const group = yield groups_1.default.create({
                 Name: body.name,
                 Heading: body.heading,
@@ -92,10 +92,8 @@ exports.getGroups = getGroups;
 function getGroup(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         const body = req.body;
-        console.log(body);
         try {
             const group = yield groups_1.default.findOne({ where: { id: body.id } });
-            console.log(group);
             res.status(200).json({ group, success: true });
         }
         catch (err) {

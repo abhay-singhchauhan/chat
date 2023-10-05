@@ -24,5 +24,9 @@ const Messages = db_1.default.define("messages", {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    IsImage: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+    },
 });
 exports.default = Messages;

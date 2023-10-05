@@ -28,5 +28,9 @@ const User = db_1.default.define("user", {
         allowNull: false,
         type: sequelize_1.DataTypes.STRING,
     },
+    ProfileImageUrl: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
 });
 exports.default = User;

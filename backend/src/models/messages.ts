@@ -20,6 +20,10 @@ const Messages = sequelize.define("messages", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  IsImage: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 export default Messages;

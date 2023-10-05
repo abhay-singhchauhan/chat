@@ -33,9 +33,9 @@
   </head>
   <body>
     <div id="nav">
-      <img src="../images/logoIcon.png" alt="" />
-      <div>
-        <img src="../images/defaultProfile.png" alt="" />
+      <img id="profileDisplayImage" src="../images/logoIcon.png" alt="" />
+      <div id="profile">
+        <img id="groupImage" src="../images/defaultProfile.png" alt="" />
         <p id="nameDisplay">grds rdf</p>
       </div>
     </div>
@@ -48,23 +48,19 @@
       <div id="addingMembers" class="displaynone">
         <input id="addMemberApi" type="text" placeholder="Search Members" />
         <div id="addMembers">
-          <div class="innerSearchMembers">
-            <img src="../images/defaultProfile.png" alt="" />
-            <p>adksfghv ;dskfh as</p>
-            <p class="addMember">Add</p>
-          </div>
+          <div class="innerSearchMembers">No Item to show</div>
         </div>
       </div>
       <div id="containerimage">
-        <img src="../images/defaultProfile.png" alt="" />
+        <img id="groupCurrentImage" src="../images/defaultProfile.png" alt="" />
       </div>
-      <div id="containerbottom">
-        <div class="members">
-          <img src="../images/defaultProfile.png" alt="" />
-          <p>abhay hai</p>
-          <button class="removeButton">Remove</button>
-        </div>
+      <div id="uploadPicture">
+        <label for="fileUpload">Upload Group Image</label> <br />
+        <input name="fileUpload" type="file" accept="image/*" />
+        <br />
+        <button id="summitButton">Submit</button>
       </div>
+      <div id="containerbottom"></div>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

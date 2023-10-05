@@ -7,12 +7,32 @@ const groupNameId = JSON.parse(localStorage.getItem("groupNameId"));
 const groupName = document.getElementById("groupname");
 groupName.setAttribute("id", groupNameId.id);
 groupName.innerText = groupNameId.name;
+const currentImage = document.getElementById("groupCurrentImage");
+currentImage.setAttribute(
+  "src",
+  `https://s3.amazonaws.com/chat.app.project/groupProfile/group-${groupNameId.id}`
+);
 localStorage.removeItem("groupNameId");
 const member = document.getElementById("membersdisplay");
 const plus = document.getElementById("plus");
 const addingMembers = document.getElementById("addingMembers");
 const containertop = document.getElementById("containertop");
 //functions without http request
+
+document.getElementById("profile").addEventListener("click", () => {
+  window.location = "../profile/profile.html";
+});
+
+document
+  .getElementById("groupImage")
+  .setAttribute(
+    "src",
+    `${
+      groupNameId.userDetails.ProfileImageUrl || "../images/defaultProfile.png"
+    }`
+  );
+document.getElementById("nameDisplay").innerText =
+  groupNameId.userDetails.Name.slice(0, 5) + "...";
 
 back.addEventListener("click", () => {
   console.log("back function");
@@ -44,7 +64,7 @@ containerbottom.addEventListener("click", async (e) => {
         console.log(userId);
         console.log(e.target.id);
         const res = await axios.delete(
-          `http://localhost:4000/remove-group-member?groupId=${groupNameId.id}&userId=${userId}`,
+          `${root}remove-group-member?groupId=${groupNameId.id}&userId=${userId}`,
           {
             headers: {
               token: token,
@@ -89,7 +109,9 @@ function displayMembers(data) {
   let str = "";
   data.forEach((ele) => {
     str += `<div id="${ele.id}" class="innerSearchMembers">
-    <img src="../images/defaultProfile.png" alt="" />
+    <img src="${
+      ele.ProfileImageUrl || "../images/defaultProfile.png"
+    }" alt="" />
     <p>${ele.Email}</p>
     <button class="addMember">Add</button>
   </div>`;
@@ -105,7 +127,7 @@ document.getElementById("addMembers").addEventListener("click", async (e) => {
       const email = e.target.previousElementSibling.innerText;
       console.log(email);
       const res = await axios.post(
-        `http://localhost:4000/add-member?groupId=${groupNameId.id}`,
+        `${root}add-member?groupId=${groupNameId.id}`,
         {
           email: email,
         },
@@ -132,7 +154,7 @@ async function display() {
     const token = localStorage.getItem("chatapplicationtoken");
 
     const res = await axios.get(
-      `http://localhost:4000/get-group-members?groupId=${groupNameId.id}`,
+      `${root}get-group-members?groupId=${groupNameId.id}`,
       {
         headers: {
           token: token,
@@ -146,7 +168,9 @@ async function display() {
       let str = "";
       res.data.forEach((ele) => {
         str += `<div id="${ele.id}"   class="members">
-        <img src="../images/defaultProfile.png" alt="" />
+        <img src="${
+          ele.ProfileImageUrl || "../images/defaultProfile.png"
+        }" alt="" />
         <p>${ele.Name}</p>
         <button class="removeMember">Remove</button>
       </div>`;
@@ -158,3 +182,39 @@ async function display() {
   }
 }
 display();
+
+const button = document.querySelector("button");
+console.log(button);
+button.addEventListener("click", async () => {
+  const token = localStorage.getItem("chatapplicationtoken");
+  const file = document.querySelectorAll("input")[1].files[0];
+  console.log(file);
+  try {
+    const res = await axios(`${root}upload-group-image?id=${groupName.id}`, {
+      headers: { token: token },
+      method: "PUT",
+    });
+    console.log(res);
+    console.log(res.data);
+    const res2 = await fetch(res.data, {
+      method: "PUT",
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+      body: file,
+    });
+
+    console.log(res2.url.split("?")[0]);
+    const res3 = await axios.post(
+      `${root}update-group-image?id=${groupNameId.id}`,
+      { url: res2.url.split("?")[0] },
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+});

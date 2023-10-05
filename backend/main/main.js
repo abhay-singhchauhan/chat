@@ -12,6 +12,7 @@ const path_1 = __importDefault(require("path"));
 const loginsignup_1 = __importDefault(require("./routes/loginsignup"));
 const messages_1 = __importDefault(require("./routes/messages"));
 const group_1 = __importDefault(require("./routes/group"));
+const images_1 = __importDefault(require("./routes/images"));
 /*routes*/
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
@@ -33,6 +34,7 @@ app.use(body_parser_1.default.json());
 app.use(loginsignup_1.default);
 app.use(messages_1.default);
 app.use(group_1.default);
+app.use(images_1.default);
 app.use((req, res, next) => {
     res.sendFile(path_1.default.join(__dirname, req.url));
     console.log(req.url);
@@ -50,14 +52,21 @@ io.on("connection", (socket) => {
         socket.join(roomNumber);
         io.to(roomNumber).emit("joinedRoom", memberName);
     });
-    socket.on("messageSent", (groupId, messageValue) => {
-        io.to(groupId).emit("takeMessage", messageValue, groupId);
+    socket.on("messageSent", (obj) => {
+        console.log(obj);
+        io.to(obj.groupId).emit("takeMessage", obj);
+    });
+    socket.on("leave", (groupId) => {
+        socket.leave(groupId);
+        console.log(socket.eventNames);
+        console.log("I left, group", groupId);
     });
     console.log(`the client is been connected ${socket.id}`);
 });
 groups_1.default.belongsToMany(userTable_1.default, { through: "groupuser" });
 userTable_1.default.belongsToMany(groups_1.default, { through: "groupuser" });
 userTable_1.default.hasMany(messages_2.default);
+groups_1.default.hasMany(messages_2.default);
 db_1.default.sync().then(() => {
     server.listen(4000);
 });

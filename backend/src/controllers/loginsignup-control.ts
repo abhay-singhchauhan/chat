@@ -2,6 +2,7 @@ import User from "../models/userTable";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { truncateSync } from "fs";
 
 dotenv.config();
 
@@ -86,4 +87,8 @@ export async function login(req: any, res: any, next: any) {
   } catch (err) {
     res.status(500).json({ status: false, message: "uncought error" });
   }
+}
+export async function getUser(req: any, res: any, next: any) {
+  const obj = req.user;
+  res.json({ obj });
 }

@@ -7,10 +7,12 @@ export async function createGroup(req: any, res: any, next: any) {
   interface body_inter {
     name: string;
     heading: string;
+    image: any;
   }
+
   try {
     const body: body_inter = req.body;
-    console.log(body);
+    console.log(body, "idhar <<<<<");
     const group: any = await Groups.create({
       Name: body.name,
       Heading: body.heading,
@@ -79,10 +81,10 @@ export async function getGroup(req: any, res: any, next: any) {
     id: string;
   }
   const body = req.body;
-  console.log(body);
+
   try {
     const group = await Groups.findOne({ where: { id: body.id } });
-    console.log(group);
+
     res.status(200).json({ group, success: true });
   } catch (err) {
     res.status(500).json({ group: null, success: true });

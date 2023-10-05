@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const images_controls_1 = require("../controllers/images-controls");
+const authentication_1 = require("../middlewears/authentication");
+const router = (0, express_1.Router)();
+router.put("/upload-profile-image", authentication_1.authenticate, images_controls_1.uploadProfileImage);
+router.post("/update-profile-image", authentication_1.authenticate, images_controls_1.updateProfileImage);
+router.put("/upload-group-image", authentication_1.authenticate, images_controls_1.uploadGroupImage);
+router.post("/update-group-image", authentication_1.authenticate, images_controls_1.updateGroupImage);
+router.put("/upload-message-image", authentication_1.authenticate, images_controls_1.uploadMessageImage);
+exports.default = router;

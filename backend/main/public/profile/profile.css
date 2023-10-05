@@ -1,0 +1,106 @@
+* {
+  padding: 0%;
+  margin: 0%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #525357;
+}
+#profileContainer {
+  width: 90%;
+  margin: auto;
+  margin-top: 8vh;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 20px 0 20px 0;
+  border-radius: 20px;
+}
+#profileContainer > div {
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 20px;
+  padding: 10px 0 10px 0;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 10px;
+}
+#profileContainer > div img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+#profileContainer > div:nth-child(2) {
+  border: 1px solid rgba(160, 96, 255, 1);
+  border-radius: 20px;
+}
+input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+input[type="file"]::file-selector-button {
+  border-radius: 4px;
+  padding: 0 10px;
+  height: 30px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 25px;
+  width: 150px;
+  transition: background-color 200ms;
+}
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+
+button {
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  color: white;
+  padding: 7px 20px 7px 20px;
+  border: none;
+  border-radius: 10px;
+}
+button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+button:active {
+  opacity: 0.5;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #profileContainer {
+    width: 90%;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  #profileContainer {
+    width: 80%;
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #profileContainer {
+    width: 70%;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  #profileContainer {
+    width: 60%;
+  }
+}

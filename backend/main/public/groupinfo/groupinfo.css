@@ -27,6 +27,9 @@ body {
   border-radius: 50%;
   cursor: pointer;
 }
+#nav div img {
+  width: 30px;
+}
 #nav div {
   cursor: pointer;
   height: 70%;
@@ -163,11 +166,14 @@ body {
 .innerSearchMembers img {
   width: 30px;
   height: 100%;
+  border-radius: 50%;
 }
 .innerSearchMembers button {
   padding: 5px 10px 5px 10px;
   border: 1px solid grey;
   cursor: pointer;
+  height: 100%;
+  width: 60px;
   border-radius: 10px;
 }
 .innerSearchMembers button:hover {
@@ -218,6 +224,63 @@ body {
   opacity: 0.7;
 }
 .members button:last-child:active {
+  opacity: 0.5;
+}
+
+#uploadPicture {
+  margin-top: 10px;
+}
+#uploadPicture input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+input[type="file"]::file-selector-button {
+  border-radius: 4px;
+  padding: 0 10px;
+  height: 30px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 25px;
+  width: 150px;
+  transition: background-color 200ms;
+}
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+#uploadPicture {
+  border: 1px solid rgba(160, 96, 255, 1);
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px 0 10px 0;
+}
+#uploadPicture button {
+  background: rgb(160, 96, 255);
+  background: linear-gradient(
+    140deg,
+    rgba(160, 96, 255, 1) 0%,
+    rgba(0, 228, 227, 1) 100%
+  );
+  color: white;
+  padding: 7px 20px 7px 20px;
+  border: none;
+  border-radius: 10px;
+}
+#uploadPicture button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+#uploadPicture button:active {
   opacity: 0.5;
 }
 
