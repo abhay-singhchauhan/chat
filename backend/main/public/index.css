@@ -358,7 +358,7 @@ body {
   display: flex;
 }
 #messagesBox img {
-  height: 200px;
+  height: 150px;
   padding: 10px;
   background: rgb(160, 96, 255);
   background: linear-gradient(
@@ -538,5 +538,8 @@ input[type="file"]::file-selector-button:active {
   #left {
     width: 30%;
     left: 1vw;
+  }
+  #messagesBox img {
+    height: 250px;
   }
 }

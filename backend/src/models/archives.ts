@@ -1,12 +1,11 @@
 import sequelize from "../util/db";
 import { Sequelize, DataTypes } from "sequelize";
 
-const User = sequelize.define("user", {
+const Messages = sequelize.define("messagesArchive", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true,
   },
   Name: {
     type: DataTypes.STRING,
@@ -16,19 +15,15 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  Phone: {
-    allowNull: false,
-    type: DataTypes.BIGINT,
-  },
-  Password: {
-    allowNull: false,
+  Message: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
-  ProfileImageUrl: {
-    type: DataTypes.STRING,
-    allowNull: true,
+  IsImage: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   },
 
 });
 
-export default User;
+export default Messages;

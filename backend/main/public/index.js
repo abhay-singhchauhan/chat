@@ -9,7 +9,9 @@ const chats = document.getElementById("chatList");
 const groupname = document.querySelector(".groupname");
 const socket = io();
 //Event to create a Group
-console.log(new Date().toString());
+if (localStorage.getItem("chatapplicationtoken") === null) {
+  window.location = "./login/login.html";
+}
 
 document.getElementById("profileSection").addEventListener("click", () => {
   window.location = "./profile/profile.html";

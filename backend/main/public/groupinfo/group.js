@@ -107,16 +107,21 @@ function displayMembers(data) {
   const memberDiv = document.getElementById("addMembers");
   memberDiv.setAttribute("class", "");
   let str = "";
-  data.forEach((ele) => {
-    str += `<div id="${ele.id}" class="innerSearchMembers">
-    <img src="${
-      ele.ProfileImageUrl || "../images/defaultProfile.png"
-    }" alt="" />
-    <p>${ele.Email}</p>
-    <button class="addMember">Add</button>
-  </div>`;
-  });
-  memberDiv.innerHTML = str;
+  if(data === null) {
+    memberDiv.innerHTML = `<div class="innerSearchMembers">No Item to show</div>`;
+  }else{
+    data.forEach((ele) => {
+      str += `<div id="${ele.id}" class="innerSearchMembers">
+      <img src="${
+        ele.ProfileImageUrl || "../images/defaultProfile.png"
+      }" alt="" />
+      <p>${ele.Email}</p>
+      <button class="addMember">Add</button>
+    </div>`;
+    });
+    memberDiv.innerHTML = str;
+  }
+ 
 }
 
 document.getElementById("addMembers").addEventListener("click", async (e) => {

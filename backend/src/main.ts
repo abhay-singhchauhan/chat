@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import { Server, Socket } from "socket.io";
 import http from "http";
 import path from "path";
+import { CronJob } from "cron";
+import sequelize from "./util/db"
 /*routes*/
 import loginsignuprouter from "./routes/loginsignup";
 import messagesrouter from "./routes/messages";
@@ -17,9 +19,13 @@ import cors from "cors";
 import User from "./models/userTable";
 import Messages from "./models/messages";
 import Groups from "./models/groups";
+import archiveMessage from "./models/archives"
+
 /* models */
 
 import db from "./util/db";
+
+
 
 env.config();
 const app = express();
@@ -33,6 +39,25 @@ app.use(
 );
 console.log("hi here");
 app.use(bodyParser.json());
+
+
+const job = new CronJob("59 23 * * * *", ()=>{
+ 
+
+    console.log("aa gaaya bhai me aandar")
+   sequelize.query("INSERT INTO messagesArchives SELECT * FROM messages").then((res)=>{
+    Messages.destroy({
+      where: {},
+      truncate: false // This option resets the auto-increment primary key (if applicable)
+    }).then((ress)=>{
+      console.log("successfully destroyed everything")
+    });
+   }).catch((err)=>{
+    console.log(err, "there is some problem inside the job funciton")
+   })
+  }) 
+
+job.start()
 
 app.use(loginsignuprouter);
 app.use(messagesrouter);
@@ -73,6 +98,8 @@ Groups.belongsToMany(User, { through: "groupuser" });
 User.belongsToMany(Groups, { through: "groupuser" });
 User.hasMany(Messages);
 Groups.hasMany(Messages);
+User.hasMany(archiveMessage)
+Groups.hasMany(archiveMessage)
 db.sync().then(() => {
   server.listen(4000);
 });

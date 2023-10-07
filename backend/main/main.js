@@ -8,6 +8,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const socket_io_1 = require("socket.io");
 const http_1 = __importDefault(require("http"));
 const path_1 = __importDefault(require("path"));
+const cron_1 = require("cron");
+const db_1 = __importDefault(require("./util/db"));
 /*routes*/
 const loginsignup_1 = __importDefault(require("./routes/loginsignup"));
 const messages_1 = __importDefault(require("./routes/messages"));
@@ -20,8 +22,9 @@ const cors_1 = __importDefault(require("cors"));
 const userTable_1 = __importDefault(require("./models/userTable"));
 const messages_2 = __importDefault(require("./models/messages"));
 const groups_1 = __importDefault(require("./models/groups"));
+const archives_1 = __importDefault(require("./models/archives"));
 /* models */
-const db_1 = __importDefault(require("./util/db"));
+const db_2 = __importDefault(require("./util/db"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -31,6 +34,20 @@ app.use((0, cors_1.default)({
 }));
 console.log("hi here");
 app.use(body_parser_1.default.json());
+const job = new cron_1.CronJob("59 23 * * * *", () => {
+    console.log("aa gaaya bhai me aandar");
+    db_1.default.query("INSERT INTO messagesArchives SELECT * FROM messages").then((res) => {
+        messages_2.default.destroy({
+            where: {},
+            truncate: false // This option resets the auto-increment primary key (if applicable)
+        }).then((ress) => {
+            console.log("successfully destroyed everything");
+        });
+    }).catch((err) => {
+        console.log(err, "there is some problem inside the job funciton");
+    });
+});
+job.start();
 app.use(loginsignup_1.default);
 app.use(messages_1.default);
 app.use(group_1.default);
@@ -67,6 +84,8 @@ groups_1.default.belongsToMany(userTable_1.default, { through: "groupuser" });
 userTable_1.default.belongsToMany(groups_1.default, { through: "groupuser" });
 userTable_1.default.hasMany(messages_2.default);
 groups_1.default.hasMany(messages_2.default);
-db_1.default.sync().then(() => {
+userTable_1.default.hasMany(archives_1.default);
+groups_1.default.hasMany(archives_1.default);
+db_2.default.sync().then(() => {
     server.listen(4000);
 });
